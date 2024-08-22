@@ -4,8 +4,12 @@ import { images } from "../constants";
 import CustomButton from "../components/CustomButton";
 import { StatusBar } from "expo-status-bar";
 import { Redirect, router } from "expo-router";
+import { useGlobalContext } from "@/context/GlobalProvider";
 
 export default function Index() {
+  const { isLoading, isLoaggedIn } = useGlobalContext();
+
+  if(!isLoading && isLoaggedIn) return <Redirect href="/home" />
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -38,7 +42,7 @@ export default function Index() {
           </Text>
           <CustomButton
             title="Continue with email"
-            handlePress={() => router.push('/sign-in')}
+            handlePress={() => router.push("/sign-in")}
             containerStyles="w-full mt-7"
           />
         </View>
