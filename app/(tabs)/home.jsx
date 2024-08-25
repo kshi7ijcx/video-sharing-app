@@ -4,6 +4,7 @@ import { images } from "../../constants";
 import SearchInput from "../../components/SearchInput";
 import Trending from "../../components/Trending";
 import EmptyState from "../../components/EmptyState";
+import { useState } from "react";
 
 const Home = () => {
   const [refreshing, setRefreshing] = useState(false);

@@ -10,6 +10,7 @@ import {
   useGloabalContext,
   useGlobalContext,
 } from "../../context/GlobalProvider";
+import { router } from "expo-router";
 
 const SignUp = () => {
   const [form, setForm] = useState({
