@@ -25,7 +25,7 @@ const Home = () => {
         data={[{ id: 1 }, { id: 2 }]}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <Text className="text-3xl text-white">{item.title}</Text>
+          <VideoCard video={item}/>
         )}
         ListHeaderComponent={() => (
           <View className="my-6 px-4 space-y-6">
