@@ -7,23 +7,26 @@ import EmptyState from "../../components/EmptyState";
 import { useEffect, useState } from "react";
 import { getAllPosts } from "../../lib/appwrite";
 import useAppwrite from "../../lib/useAppwrite";
+import VideoCard from "../../components/VideoCard";
 
 const Home = () => {
   const { data: posts, refetch } = useAppwrite(getAllPosts);
+
+  console.log(posts);
 
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await refetch;
+    await refetch();
     setRefreshing(false);
   };
 
   return (
     <SafeAreaView className="bg-primary h-full">
       <FlatList
-        data={[{ id: 1 }, { id: 2 }]}
-        keyExtractor={(item) => item.id}
+        data={posts}
+        keyExtractor={(item) => item.$id}
         renderItem={({ item }) => (
           <VideoCard video={item}/>
         )}
