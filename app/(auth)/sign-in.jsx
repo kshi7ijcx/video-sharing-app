@@ -30,6 +30,7 @@ const SignIn = () => {
       await signIn(form.email, form.password);
       const result = await getCurrentUser();
       setUser(result);
+      setIsLoggedIn(true);
       Alert.alert("Success", "User signed in successfully");
       router.replace("/home");
     } catch (error) {
