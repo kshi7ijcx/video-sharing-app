@@ -7,7 +7,6 @@ import CustomButton from "../../components/CustomButton";
 import { Link } from "expo-router";
 import { createUser } from "../../lib/appwrite";
 import {
-  useGloabalContext,
   useGlobalContext,
 } from "../../context/GlobalProvider";
 import { router } from "expo-router";
