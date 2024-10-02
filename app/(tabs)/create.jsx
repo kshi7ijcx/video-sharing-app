@@ -1,10 +1,18 @@
-import { View, Text, ScrollView, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FormField from "../../components/FormField";
 import { useState } from "react";
 import { ResizeMode, Video } from "expo-av";
 import { icons } from "../../constants";
 import CustomButton from "../../components/CustomButton";
+import * as DocumentPicker from "expo-document-picker";
 
 const Create = () => {
   const [uploading, setUploading] = useState(false);
@@ -14,6 +22,32 @@ const Create = () => {
     thumbnail: null,
     prompt: "",
   });
+
+  const openPicker = async (selectType) => {
+    const result = await DocumentPicker.getDocumentAsync({
+      type:
+        selectType === "image"
+          ? ["image/png", "image/jpg"]
+          : ["video/mp4", "video/gif"],
+    });
+
+    if (!result.canceled) {
+      if (selectType === "image") {
+        setForm({ ...form, thumbnail: result.assets[0] });
+      }
+      if (selectType === "video") {
+        setForm({ ...form, video: result.assets[0] });
+      }
+    } else {
+      setTimeout(() => {
+        Alert.alert("Document Picked", JSON.stringify(result, null, 2), 100);
+      },100);
+    }
+  };
+
+  const submit = () => {
+    
+  };
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -30,7 +64,7 @@ const Create = () => {
           <Text className="text-base text-gray-100 font-pmedium">
             Upload Video
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => openPicker("video")}>
             {form.video ? (
               <Video
                 source={{ uri: form.video.uri }}
@@ -56,7 +90,7 @@ const Create = () => {
           <Text className="text-base text-gray-100 font-pmedium">
             Thumbnail Image
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => openPicker("image")}>
             {form.thumbnail ? (
               <Image
                 source={{ uri: form.thumbnail.uri }}
@@ -84,7 +118,12 @@ const Create = () => {
           handleChangeText={(e) => setForm({ ...form, prompt: e })}
           otherStyles="mt-7"
         />
-        <CustomButton title="Submit & Publish" handlePress={submit} />
+        <CustomButton
+          title="Submit & Publish"
+          handlePress={submit}
+          containerStyles="mt-7"
+          isLoading={uploading}
+        />
       </ScrollView>
     </SafeAreaView>
   );
