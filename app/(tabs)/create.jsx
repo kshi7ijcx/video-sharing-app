@@ -13,6 +13,7 @@ import { ResizeMode, Video } from "expo-av";
 import { icons } from "../../constants";
 import CustomButton from "../../components/CustomButton";
 import * as DocumentPicker from "expo-document-picker";
+import { router } from "expo-router";
 
 const Create = () => {
   const [uploading, setUploading] = useState(false);
@@ -41,12 +42,31 @@ const Create = () => {
     } else {
       setTimeout(() => {
         Alert.alert("Document Picked", JSON.stringify(result, null, 2), 100);
-      },100);
+      }, 100);
     }
   };
 
   const submit = () => {
-    
+    if (!form.prompt || !form.title || !form.thumbnail || !form.video) {
+      return Alert.alert("Please fill in all the fields");
+    }
+
+    setUploading(true);
+
+    try {
+      Alert.alert("Success", "Post uploaded successfully");
+      router.push('/home')
+    } catch (error) {
+      Alert.alert("Error", error.message);
+    } finally {
+      setForm({
+        title: "",
+        video: null,
+        thumbnail: null,
+        prompt: "",
+      });
+      setUploading(false);
+    }
   };
 
   return (
